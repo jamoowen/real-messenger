@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
         const session = await getServerSession(authOptions);
 
-        console.log(`idToAdd: ${idToAdd}, user: ${session?.user.id}, email: ${emailToAdd}`)
+        // console.log(`idToAdd: ${idToAdd}, user: ${session?.user.id}, email: ${emailToAdd}`)
         // check user exists
         if (!idToAdd) {
             return new Response('User does not exist', { status: 400 })
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
         if (isAlreadyAdded) {
             return new Response('already added user', { status: 400 })
-        }
+        } 
         const isAlreadyFriend = (await fetchRedis('sismember', `user:${session.user.id}:friends`, idToAdd)) as 0 | 1
 
         if (isAlreadyFriend) {

@@ -12,7 +12,7 @@ const Dashboard:FC<pageProps> = async ({}) => {
     
     return (
         <div>
-            <pre>{JSON.stringify(session)}</pre>
+            <pre>Dashboard</pre>
         </div>
     )
 }
