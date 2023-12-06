@@ -1,5 +1,6 @@
 import FriendRequestsSidebar from "@/components/FriendRequestsSidebar";
 import { Icon, Icons } from "@/components/Icons";
+import MobileChatLayout from "@/components/MobileChatLayout";
 import SidebarChatList from "@/components/SidebarChatList";
 import SignOutButton from "@/components/SignOutButton";
 import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
@@ -39,14 +40,17 @@ const Layout = async ({ children }: LayoutProps) => {
 
     const friends = await getFriendsByUserId(session.user.id)
 
-    const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_request`) as User[]).length
+    const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`) as User[]).length
     // console.log(`user: ${session.user.id}, unseen: ${unseenRequestCount}`)
 
     return (
         <div className="w-full flex h-screen">
-            <div className="flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-auto border-r border-gray-200 bg-white px-6 ">
-                <Link href='/dashboard' className="flex-h-16 shrink-0 items-center">
-                    <Icons.Logo className="h-8 w-auto text-indigo-600"></Icons.Logo>
+            <div className='sm:hidden'>
+                <MobileChatLayout />
+            </div>
+            <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6'>
+                <Link href='/dashboard' className='flex h-16 shrink-0 items-center'>
+                    <Icons.Logo className='h-8 w-auto text-indigo-600' />
                 </Link>
 
                 <div className="text-xs font-semibold leading-6 text-gray-400">
@@ -57,7 +61,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
 
                         <li>
-                            <SidebarChatList friends={friends} userId={session.user.id}/>
+                            <SidebarChatList friends={friends} userId={session.user.id} />
                         </li>
                         <li>
                             <div className="text-xs font-semibold leading-6 text-gray-400">
@@ -112,7 +116,8 @@ const Layout = async ({ children }: LayoutProps) => {
                 </nav>
 
             </div>
-            {children}
+            <aside className="max-h-screen container py-16 md:py-12">{children}</aside>
+
         </div>
     )
 }

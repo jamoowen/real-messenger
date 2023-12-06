@@ -15,7 +15,7 @@ export async function POST(req:Request) {
 
         const {id: idToReject} = z.object({id: z.string()}).parse(body)
 
-        await db.srem(`user:${session.user.id}:incoming_friend_request`, idToReject)
+        await db.srem(`user:${session.user.id}:incoming_friend_requests`, idToReject)
 
         return new Response('ok')
 

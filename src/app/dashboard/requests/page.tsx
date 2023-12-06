@@ -12,7 +12,7 @@ const page = async () => {
 
     if (!session) notFound()
 
-    const incomingRequests = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_request`)) as string[]
+    const incomingRequests = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`)) as string[]
 
     const incomingEmails = await Promise.all(
         incomingRequests.map(async (senderId) => {
